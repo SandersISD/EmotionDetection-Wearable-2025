@@ -19,24 +19,34 @@ if __name__ == '__main__':
 
     print('Loading the model...')
 
-    f = tf.lite.Interpreter("/home/pi/Desktop/CAFA_Wearable/models/model_optimized.tflite")
+    f = tf.lite.Interpreter("/home/aiwearable/EmotionDetection-Wearable/models/model_optimized.tflite")
     f.allocate_tensors()
     i = f.get_input_details()[0]
     o = f.get_output_details()[0]
 
     print('Loading Successful !')
 
-    cascPath = "/home/pi/Desktop/CAFA_Wearable/haarcascade_frontalface_default.xml"
+    cascPath = "/home/aiwearable/EmotionDetection-Wearable/haarcascade_frontalface_default.xml"
 
     faceCascade = cv2.CascadeClassifier(cascPath)
 
-    cap = cv2.VideoCapture(-1)
+    # cap = cv2.VideoCapture(-1)
+    cap = cv2.VideoCapture("/dev/video0")
     ai = 'anger'
     img = np.zeros((200, 200, 3))
     ct = 0
     while(True):
-        # Capture frame-by-frame
+
+        print('Capturing frame...')
+        
         ret, frame = cap.read()
+        
+        # if not frame:
+        #     print(f"Error reading frame:")
+            # cap.release()
+            # i %= 2
+            # cap = cv2.VideoCapture("/dev/video{i}")
+    
         ct+=1
         # Our operations on the frame come here
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
@@ -61,17 +71,17 @@ if __name__ == '__main__':
 
                 ai = brain(gray, x, y, w, h, f, i, o)
                 ## Mechanical move here 
-                if ai == "sadness":
+                # if ai == "sadness":
                     #test_control.Sadness()
-                    control.Sadness()
+                    # control.Sadness()
 
-                elif ai == "anger":
+                # elif ai == "anger":
                     #test_control.Anger()
-                    control.Anger()
+                    # control.Anger()
 
-                elif ai == "happy":
-                    #test_control.Happy()
-                    control.Happy()
+                # elif ai == "happy":
+                    # test_control.Happy()
+                    # control.Happy()
                     
                 ct = 0
 
