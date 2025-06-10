@@ -4,4 +4,10 @@ version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.11"
-dependencies = []
+dependencies = [
+    "opencv-python>=4.11.0.86",
+    "rpi-gpio>=0.7.1",
+    "scikit-image>=0.25.2",
+    "tensorflow>=2.19.0",
+    "tflite-runtime>=2.14.0",
+]
